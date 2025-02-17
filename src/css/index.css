@@ -1,0 +1,51 @@
+body{
+    padding: 15px 25px ;
+  /*  background-image: url('/src/images/vectorGreen.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+    padding: 0; */
+      
+}
+.alert{
+    background-color: rgb(193, 236, 193);
+    display: flex;
+    flex-direction: column;
+    border:2px solid green;
+    border-radius: 25px;
+    width: 350px;
+    height: auto;
+    font-size: 13px;
+}
+.login{
+    background-color: rgb(193, 236, 193);
+    display: flex;
+    flex-direction: column;
+    border:2px solid green;
+    border-radius: 25px;
+    width: 350px;
+    height:380px;
+}
+    
+    
+.loginUser{
+    margin: auto;
+    width: 250px;
+    text-align: center;
+}
+
+.loginBtn{
+    width: 300px;
+    border-radius: 30px;
+    background-color:#3c3c3b;
+}
+
+
+
+
+
+
+
+    
