@@ -1,0 +1,8 @@
+const checkButtonState = (shouldBeDisabled) => {
+    const assertion = shouldBeDisabled ? 'be.disabled' : 'not.be.disabled';
+    cy.get('.btn').should(assertion);
+  };
+
+  export default {
+    checkButtonState,
+  };
