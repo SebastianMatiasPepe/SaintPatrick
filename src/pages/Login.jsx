@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { authService } from "../services/authService";
+import logo from "../images/logo.png"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -41,11 +42,12 @@ export default function LoginPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-2 text-center">
           <div className="flex justify-center">
-            <div className="rounded-full bg-primary/10 p-2">
-              <DollarSign className="h-6 w-6 text-primary" />
+            <div>
+             {/* <DollarSign className="h-6 w-6 text-primary" /> */}
+             <img src={logo} alt="logo" width="100" />
             </div>
           </div>
-          <CardTitle className="text-2xl">Welcome to FrontBank</CardTitle>
+          <CardTitle className="text-2xl">Welcome to Saint Patrick</CardTitle>
           <CardDescription>Enter your credentials to access your account</CardDescription>
         </CardHeader>
         <form onSubmit={handleLogin}>
