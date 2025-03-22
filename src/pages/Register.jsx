@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { DollarSign, Lock, Mail, User } from "lucide-react";
+import { DollarSign, Lock, Mail, User, Phone, MapPin } from "lucide-react";
 
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
@@ -11,16 +11,41 @@ import { authService } from "../services/authService";
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [cedula, setCedula] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [locationLoading, setLocationLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Get user's location when component mounts
+  useEffect(() => {
+    if (navigator.geolocation) {
+      setLocationLoading(true);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const locationString = `{${position.coords.latitude},${position.coords.longitude}}`;
+          setLocation(locationString);
+          setLocationLoading(false);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          setLocation("{0,0}"); // Default location if error
+          setLocationLoading(false);
+        }
+      );
+    } else {
+      setLocation("{0,0}"); // Default location if geolocation not supported
+    }
+  }, []);
 
   const handleRegister = async (e) => {
     e.preventDefault();
     
-    if (!name || !email || !password || !confirmPassword) {
+    if (!name || !email || !cedula || !phone || !password || !confirmPassword) {
       setError("Please fill in all fields");
       return;
     }
@@ -34,7 +59,17 @@ export default function RegisterPage() {
       setLoading(true);
       setError(null);
       
-      await authService.register({ name, email, password });
+      // Create user data object with the required format
+      const userData = {
+        name,
+        cedula,
+        email,
+        phone,
+        password,
+        location: location || "{0,0}"
+      };
+      
+      await authService.register(userData);
       navigate("/login", { state: { message: "Registration successful. Please log in." } });
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed. Please try again.");
@@ -76,6 +111,22 @@ export default function RegisterPage() {
                 />
               </div>
             </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="cedula">ID Number (Cédula)</Label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="cedula"
+                  placeholder="1234567890"
+                  className="pl-9"
+                  value={cedula}
+                  onChange={(e) => setCedula(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
@@ -91,6 +142,22 @@ export default function RegisterPage() {
                 />
               </div>
             </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number</Label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="phone"
+                  placeholder="9876543210"
+                  className="pl-9"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
@@ -105,6 +172,7 @@ export default function RegisterPage() {
                 />
               </div>
             </div>
+            
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
               <div className="relative">
@@ -119,9 +187,28 @@ export default function RegisterPage() {
                 />
               </div>
             </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="location" className="flex items-center">
+                Location
+                {locationLoading && <span className="ml-2 text-xs text-muted-foreground">(Getting location...)</span>}
+              </Label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="location"
+                  placeholder="Location coordinates"
+                  className="pl-9"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  disabled={locationLoading}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">Your location will be used for security purposes</p>
+            </div>
           </CardContent>
           <CardFooter className="flex-col space-y-4">
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full" disabled={loading || locationLoading}>
               {loading ? "Creating Account..." : "Create Account"}
             </Button>
             <div className="text-center text-sm">

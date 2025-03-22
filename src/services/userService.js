@@ -13,5 +13,14 @@ export const userService = {
       console.error("User service error:", error);
       throw error;
     }
+  },
+  // Add this method to your existing userService
+  updateUser: async (userId, userData) => {
+    try {
+      const response = await api.put(`/usuarios/${userId}`, userData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
   }
 };

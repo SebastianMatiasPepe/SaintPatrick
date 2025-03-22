@@ -37,7 +37,7 @@ export default function AppSidebar() {
         <SidebarHeader>
           <Link to="/" className="flex items-center gap-2 font-semibold">
             <DollarSign className="h-6 w-6" />
-            <span className="text-xl font-bold">FrontBank</span>
+            <span className="text-xl font-bold">SaintPatrick</span>
           </Link>
         </SidebarHeader>
         <SidebarMenu>
@@ -50,42 +50,10 @@ export default function AppSidebar() {
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Link to="/accounts" className="w-full">
-              <SidebarMenuButton className={cn(isActive("/accounts") && "bg-accent text-accent-foreground")}>
-                <CreditCard className="h-4 w-4" />
-                Accounts
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
             <Link to="/transfer" className="w-full">
               <SidebarMenuButton className={cn(isActive("/transfer") && "bg-accent text-accent-foreground")}>
                 <DollarSign className="h-4 w-4" />
                 Transfer
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <Link to="/savings" className="w-full">
-              <SidebarMenuButton className={cn(isActive("/savings") && "bg-accent text-accent-foreground")}>
-                <PiggyBank className="h-4 w-4" />
-                Savings
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <Link to="/investments" className="w-full">
-              <SidebarMenuButton className={cn(isActive("/investments") && "bg-accent text-accent-foreground")}>
-                <BarChart3 className="h-4 w-4" />
-                Investments
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <Link to="/payments" className="w-full">
-              <SidebarMenuButton className={cn(isActive("/payments") && "bg-accent text-accent-foreground")}>
-                <Users className="h-4 w-4" />
-                Payments
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>

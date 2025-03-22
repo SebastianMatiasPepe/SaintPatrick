@@ -12,7 +12,7 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <Link to="/" className="flex items-center gap-2">
               <Shield className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold">SecureBank</span>
+              <span className="text-xl font-bold">SaintPatrick</span>
             </Link>
           </div>
           <nav className="hidden md:flex items-center gap-6">
@@ -32,24 +32,6 @@ export default function Home() {
               Investments
             </Link>
           </nav>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <Search className="h-5 w-5" />
-              <span className="sr-only">Search</span>
-            </Button>
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <Bell className="h-5 w-5" />
-              <span className="sr-only">Notifications</span>
-            </Button>
-            <Button variant="outline" className="hidden md:flex">
-              Log In
-            </Button>
-            <Button>Sign Up</Button>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </div>
         </div>
       </header>
       <main className="flex-1">

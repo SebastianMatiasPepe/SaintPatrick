@@ -45,7 +45,7 @@ export default function LoginPage() {
               <DollarSign className="h-6 w-6 text-primary" />
             </div>
           </div>
-          <CardTitle className="text-2xl">Welcome to FrontBank</CardTitle>
+          <CardTitle className="text-2xl">Welcome to SaintPatrick Bank</CardTitle>
           <CardDescription>Enter your credentials to access your account</CardDescription>
         </CardHeader>
         <form onSubmit={handleLogin}>

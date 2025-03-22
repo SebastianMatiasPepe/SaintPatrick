@@ -5,10 +5,13 @@ import Accounts from "./pages/Accounts";
 import Transfer from "./pages/Transfer";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import OpenAccount from "./pages/OpenAccount";
+import AddCard from "./pages/AddCard"; // Add this import
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import { authService } from "./services/authService";
 import { Toaster } from "./components/ui/use-toast";
+import Settings from "./pages/Settings";
 
 // Protected route component
 const ProtectedRoute = ({ children }) => {
@@ -76,6 +79,23 @@ function App() {
                 <Route path="/transfer" element={
                   <ProtectedRoute>
                     <Transfer />
+                  </ProtectedRoute>
+                } />
+                {/* Add the new route for opening an account */}
+                <Route path="/open-account" element={
+                  <ProtectedRoute>
+                    <OpenAccount />
+                  </ProtectedRoute>
+                } />
+                {/* Add the new route for adding a card */}
+                <Route path="/add-card" element={
+                  <ProtectedRoute>
+                    <AddCard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/settings" element={
+                  <ProtectedRoute>
+                    <Settings />
                   </ProtectedRoute>
                 } />
                 <Route path="*" element={<Navigate to="/" replace />} />

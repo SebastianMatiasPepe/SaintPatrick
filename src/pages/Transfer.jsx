@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Añadir esta importación
 import {
   ArrowRight,
   Building,
@@ -25,8 +26,11 @@ import { accountService } from "../services/accountService";
 import { transferService } from "../services/transferService";
 import { toast } from "../components/ui/use-toast";
 import { userService } from "../services/userService";
+import { authService } from "../services/authService"; // Añadir esta importación
+import { TransactionHistory } from "../components/TransactionHistory";
 
 export default function TransferPage() {
+  const navigate = useNavigate(); // Añadir esta línea
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,6 +40,7 @@ export default function TransferPage() {
   const [memo, setMemo] = useState("");
   const [transferType, setTransferType] = useState("now");
   const [transfers, setTransfers] = useState([]);
+  const [showTransactionHistory, setShowTransactionHistory] = useState(false);
   // Add these state variables at the top with the other state declarations
   const [cards, setCards] = useState([]);
   const [fromCard, setFromCard] = useState("");
@@ -47,32 +52,29 @@ export default function TransferPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        // Get the token parts from localStorage
-        const token = localStorage.getItem('token');
-        
-        // Try to decode the token to get the user ID
-        let userId = null;
-        if (token) {
-          try {
-            const base64 = token.split('.')[1];
-            const decodedToken = JSON.parse(window.atob(base64));
-            userId = decodedToken.id || decodedToken.userId;
-            console.log('Decoded user info:', decodedToken);
-          } catch (e) {
-            console.error('Error decoding token:', e);
-          }
+        // Check authentication
+        if (!authService.isAuthenticated()) {
+          navigate('/login');
+          return;
         }
         
-        // If we couldn't get userId from token, use a default for testing
+        // Get userId
+        const userId = authService.getUserId();
         if (!userId) {
-          console.log('Could not get userId from token, using default ID');
-          userId = 14; // Use default ID for testing
+          toast({
+            title: "Authentication Error",
+            description: "Please log in again to continue.",
+            variant: "destructive"
+          });
+          navigate('/login');
+          return;
         }
         
-        // Fetch user data with accounts
+        // Fetch user data to get accounts
         const userData = await userService.getUserById(userId);
+        console.log('User data:', userData); // Añadir este log
         const userAccounts = userData?.usuario?.cuentaId || [];
+        console.log('User accounts:', userAccounts); // Añadir este log
         setAccounts(userAccounts);
         
         if (userAccounts.length > 0) {
@@ -300,7 +302,10 @@ export default function TransferPage() {
           <h1 className="text-2xl font-bold tracking-tight">Transfer Money</h1>
           <p className="text-muted-foreground">Send money to your accounts or others</p>
         </div>
-        <Button variant="outline">
+        <Button 
+          variant="outline"
+          onClick={() => setShowTransactionHistory(true)}
+        >
           <History className="mr-2 h-4 w-4" />
           Transfer History
         </Button>
