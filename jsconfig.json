@@ -1,0 +1,19 @@
+{
+  "include": ["node_modules/@types", "**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules"],
+  "typeAcquisition": {
+    "include": [
+      "@babel/core",
+      "@babel/generator",
+      "@babel/template", 
+      "@babel/traverse"
+    ]
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "jsx": "react"
+  }
+}
